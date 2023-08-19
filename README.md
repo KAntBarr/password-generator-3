@@ -1,5 +1,13 @@
 # Password Generator Starter Code
 
+## Description
+This password generator will prompt the user for the criteria needed to build the password.
+If input arguments are not valid, the user will be asked to input them again or it will close.
+
+## Screenshot
+
+
+## Link
 
 
 
