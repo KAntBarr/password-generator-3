@@ -6,7 +6,7 @@ If input arguments are not valid, the user will be asked to input them again or 
 If all input arguments are valid, the generator will come up with a password that has a length between the minimum and maximum values given and characters within the chosen sets.
 
 ## Screenshot
-![image](https://github.com/KAntBarr/password-generator-3/assets/70618192/0ccaea4d-8e4f-4176-855d-a4796564b10a)
+![image](https://github.com/KAntBarr/password-generator-3/assets/70618192/33e9fcd2-142c-4278-aa0b-9419f66a7490)
 
 ## Link
 https://kantbarr.github.io/password-generator-3/
