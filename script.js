@@ -3,12 +3,12 @@ var criteria = {};//global password criteria object
 var lower_case_set = "abcdefghijklmnopqrstuvwxyz";
 var upper_case_set = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 var numeric_set = "0123456789";
-var special_set = " !\"#$%&'()*+,-./:;<=>?@[\]^_`{|}~";
+var special_set = " !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
 
 function generatePassword() {
   collectInfo();//get info
   if (!validateInfo()) {//validate info
-    if(confirm("Retry?")) {
+    if(confirm("Retry?")) {//if bad info, retry or return nothing
       generatePassword();//retry to get info
     } else {
       return "";//else return nothing
@@ -18,8 +18,7 @@ function generatePassword() {
 }
 
 function collectInfo() { //gather info for the criteria of a password
-  criteria.minLength = prompt("Minimum character length:");
-  criteria.maxLength = prompt("Maximum password length:")
+  criteria.pwLength = prompt("Choose Password Length:");
   criteria.useLowerCase = confirm("Do you want to include lower case characters?")
   criteria.useUpperCase = confirm("Do you want to include upper case characters?")
   criteria.useNumeric = confirm("Do you want to include numeric values?")
@@ -28,16 +27,11 @@ function collectInfo() { //gather info for the criteria of a password
 
 function validateInfo() { //validate that the info in the criteria are legitimate values
   var goodPassword = true;
-  if( isNaN(criteria.minLength) || (criteria.minLength <= 0)) { //check if minLength is good
-    alert("The minimum password length must be greater than 0.")
+  if(!(Number(criteria.pwLength)>=8) || !(Number(criteria.pwLength)<=128)) {
+    alert("The password length must be between 8 and 128 characters.");
     goodPassword = false;
   }
-  criteria.minLength = Number(criteria.minLength);
-  if( isNaN(criteria.maxLength) || (criteria.maxLength < criteria.minLength)) {//check if maxLength is good
-    alert("The maximum password length must be greater than or equal to the minimum length.")
-    goodPassword = false;
-  }
-  criteria.maxLength = Number(criteria.maxLength);
+
   if(criteria.useLowerCase == false &&
      criteria.useUpperCase == false &&
      criteria.useNumeric == false &&
@@ -54,9 +48,8 @@ function createPassword() {//create the password with the given criteria
   if(criteria.useUpperCase) password_set += upper_case_set;
   if(criteria.useNumeric) password_set += numeric_set;
   if(criteria.useSpecial) password_set += special_set;
-  criteria.passwordLength = randomIntFromInterval(criteria.minLength, criteria.maxLength);//get random password length
   var securePassword = "";
-  for(var i = 0; i<criteria.passwordLength; i++){//loop through and add a random character to the password per iteration
+  for(var i = 0; i<criteria.pwLength; i++){//loop through and add a random character to the password per iteration
     securePassword += password_set[randomIntFromInterval(0, password_set.length)];
   }
   return securePassword;
