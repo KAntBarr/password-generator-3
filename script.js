@@ -4,6 +4,7 @@ var lower_case_set = "abcdefghijklmnopqrstuvwxyz";
 var upper_case_set = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 var numeric_set = "0123456789";
 var special_set = " !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
+var password_set = "";
 
 function generatePassword() {
   collectInfo();//get info
@@ -43,14 +44,17 @@ function validateInfo() { //validate that the info in the criteria are legitimat
 }
 
 function createPassword() {//create the password with the given criteria
-  var password_set = ""; //add corresponding character sets to password set
+  password_set = ""; //add corresponding character sets to password set
   if(criteria.useLowerCase) password_set += lower_case_set;
   if(criteria.useUpperCase) password_set += upper_case_set;
   if(criteria.useNumeric) password_set += numeric_set;
   if(criteria.useSpecial) password_set += special_set;
   var securePassword = "";
+  var char = '';
   for(var i = 0; i<criteria.pwLength; i++){//loop through and add a random character to the password per iteration
-    securePassword += password_set[randomIntFromInterval(0, password_set.length)];
+    char = password_set[randomIntFromInterval(0, password_set.length-1)];
+    if(!char) console.log(char, i, password_set.length)
+    securePassword += char;
   }
   return securePassword;
 }
