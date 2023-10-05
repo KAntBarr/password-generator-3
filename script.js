@@ -7,9 +7,10 @@ var special_set = " !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
 var password_set = "";
 
 function generatePassword() {
-  collectInfo();//get info
-  if (!validateInfo()) {//validate info
-    if(confirm("Retry?")) {//if bad info, retry or return nothing
+  // collectInfo();//get info
+  // if (!validateInfo()) {//validate info
+  if(!collectInfo()) {
+    if (confirm("Retry?")) {//if bad info, retry or return nothing
       generatePassword();//retry to get info
     } else {
       return "";//else return nothing
@@ -19,41 +20,47 @@ function generatePassword() {
 }
 
 function collectInfo() { //gather info for the criteria of a password
+
+  var goodPassword = true;
+
   criteria.pwLength = prompt("Choose Password Length:");
+  if (!(Number(criteria.pwLength) >= 8) || !(Number(criteria.pwLength) <= 128)) {
+    alert("The password length must be between 8 and 128 characters.");
+    goodPassword = false;
+    return goodPassword;
+  }
+
   criteria.useLowerCase = confirm("Do you want to include lower case characters?")
   criteria.useUpperCase = confirm("Do you want to include upper case characters?")
   criteria.useNumeric = confirm("Do you want to include numeric values?")
   criteria.useSpecial = confirm("Do you want to include special characters?")
+  if (criteria.useLowerCase == false &&
+    criteria.useUpperCase == false &&
+    criteria.useNumeric == false &&
+    criteria.useSpecial == false) { //make sure not all the character types are false
+    alert("At least one character type must be used.")
+    goodPassword = false;
+    return goodPassword;
+  }
+
+  return goodPassword;
 }
 
 function validateInfo() { //validate that the info in the criteria are legitimate values
-  var goodPassword = true;
-  if(!(Number(criteria.pwLength)>=8) || !(Number(criteria.pwLength)<=128)) {
-    alert("The password length must be between 8 and 128 characters.");
-    goodPassword = false;
-  }
-
-  if(criteria.useLowerCase == false &&
-     criteria.useUpperCase == false &&
-     criteria.useNumeric == false &&
-     criteria.useSpecial == false) { //make sure not all the character types are false
-    alert("At least one character type must be used.")
-    goodPassword = false;
-  }
-  return goodPassword;
+  // this function was stripped and merged into collectInfo() for instant validation
 }
 
 function createPassword() {//create the password with the given criteria
   password_set = ""; //add corresponding character sets to password set
-  if(criteria.useLowerCase) password_set += lower_case_set;
-  if(criteria.useUpperCase) password_set += upper_case_set;
-  if(criteria.useNumeric) password_set += numeric_set;
-  if(criteria.useSpecial) password_set += special_set;
+  if (criteria.useLowerCase) password_set += lower_case_set;
+  if (criteria.useUpperCase) password_set += upper_case_set;
+  if (criteria.useNumeric) password_set += numeric_set;
+  if (criteria.useSpecial) password_set += special_set;
   var securePassword = "";
   var char = '';
-  for(var i = 0; i<criteria.pwLength; i++){//loop through and add a random character to the password per iteration
-    char = password_set[randomIntFromInterval(0, password_set.length-1)];
-    if(!char) console.log(char, i, password_set.length)
+  for (var i = 0; i < criteria.pwLength; i++) {//loop through and add a random character to the password per iteration
+    char = password_set[randomIntFromInterval(0, password_set.length - 1)];
+    if (!char) console.log(char, i, password_set.length)
     securePassword += char;
   }
   return securePassword;
